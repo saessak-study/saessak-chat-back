@@ -32,6 +32,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
     annotationProcessor 'org.projectlombok:lombok'
+    implementation 'com.corundumstudio.socketio:netty-socketio:1.7.19'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

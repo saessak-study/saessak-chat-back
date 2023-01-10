@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public class ChattingHandler extends TextWebSocketHandler {
 
-    private static List<WebSocketSession> list = new ArrayList<WebSocketSession>();
+    private static List<WebSocketSession> list = new ArrayList<>();
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
