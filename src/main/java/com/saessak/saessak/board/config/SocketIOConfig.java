@@ -57,7 +57,7 @@ public class SocketIOConfig {
         }
     };
     private final DataListener<String> onUserLoginListener = (client, data, ackSender) -> {
-        User user = User.builder().name("노미쨩").id(data).pw("pw").mail("mail").build();
+        User user = User.builder().name("유저-" + client.getSessionId()).id(data).pw("pw").mail("mail").build();
         for (SocketIOClient socket : clientList.keySet()) {
             socket.sendEvent("log-in", user);
         }
