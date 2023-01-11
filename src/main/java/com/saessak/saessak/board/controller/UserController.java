@@ -26,10 +26,8 @@ public class UserController {
             @ApiResponse(code = StatusCode.OK, message = ResponseMessage.CREATED_USER)
     })
     @PostMapping("/signup")
-    public ResponseEntity<DefaultRes> signUp(@RequestBody UserSignUpDto userSignUpDto) throws Exception {
+    public ResponseEntity<DefaultRes<Object>> signUp(@RequestBody UserSignUpDto userSignUpDto) throws Exception {
         userService.signUp(userSignUpDto);
         return new ResponseEntity<>(DefaultRes.res(StatusCode.OK, ResponseMessage.CREATED_USER), HttpStatus.OK);
-
     }
-
 }

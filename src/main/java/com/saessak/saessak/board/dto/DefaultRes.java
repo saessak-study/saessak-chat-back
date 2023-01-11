@@ -5,18 +5,18 @@ import lombok.Data;
 
 @Data
 @Builder
-public class DefaultRes {
+public class DefaultRes<T> {
     private int statusCode;
-    private String responseMessage;
+    private T responseMessage;
 
 
-    public DefaultRes(final int statusCode, final String responseMessage) {
+    public DefaultRes(final int statusCode, final T responseMessage) {
         this.statusCode = statusCode;
         this.responseMessage = responseMessage;
     }
 
-    public static DefaultRes res(final int statusCode, final String responseMessage) {
-        return new DefaultRes(statusCode, responseMessage);
+    public static <T> DefaultRes<T> res(final int statusCode, final T responseMessage) {
+        return new DefaultRes<>(statusCode, responseMessage);
     }
 
 

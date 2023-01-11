@@ -21,6 +21,9 @@ public class UserDto {
         this.mail = user.getMail();
     }
 
-    
-    
+    public User toEntity() {
+        return User.builder().name(name).id(id).pw(pw).mail(mail).build();
+    }
+
+
 }
