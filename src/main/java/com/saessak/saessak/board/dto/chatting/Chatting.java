@@ -1,5 +1,4 @@
-package com.saessak.saessak.board.dto;
-
+package com.saessak.saessak.board.dto.chatting;
 
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +8,7 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
-public class ChattingDTO {
+public class Chatting {
 
     String userId;
     String userName;
@@ -17,7 +16,7 @@ public class ChattingDTO {
     String message;
 
     @Builder
-    public ChattingDTO(
+    public Chatting(
             String userId,
             String userName,
             Date sendTime,

@@ -6,8 +6,8 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
-import com.saessak.saessak.board.dto.ChattingDTO;
-import com.saessak.saessak.board.dto.User;
+import com.saessak.saessak.board.dto.chatting.ChattingDto;
+import com.saessak.saessak.board.dto.user.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,7 @@ public class SocketIOConfig {
     private int socketPort;
     private SocketIOServer server;
 
-    private static final Map<SocketIOClient, User> clientList = new HashMap<>();
+    public static final Map<SocketIOClient, User> clientList = new HashMap<>();
 
     @Bean
     public SocketIOServer socketIOServer() {
@@ -66,7 +66,7 @@ public class SocketIOConfig {
 
     private final DataListener<String> onChattingListener = (client, data, ackSender) -> {
         User sendUser = clientList.get(client);
-        ChattingDTO chatting = ChattingDTO.builder()
+        ChattingDto chatting = ChattingDto.builder()
                 .userId(sendUser.getId())
                 .userName(sendUser.getName())
                 .sendTime(new Date())

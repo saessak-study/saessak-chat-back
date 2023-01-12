@@ -1,7 +1,15 @@
 package com.saessak.saessak.board.controller;
 
+import com.saessak.saessak.board.config.SocketIOConfig;
 import com.saessak.saessak.board.dto.DefaultRes;
-import com.saessak.saessak.board.dto.UserSignUpDto;
+import com.saessak.saessak.board.dto.user.User;
+import com.saessak.saessak.board.dto.user.duplicate_check.IdDuplicateCheckDto;
+import com.saessak.saessak.board.dto.user.id_search.IdSearchRequestDto;
+import com.saessak.saessak.board.dto.user.id_search.IdSearchResponseDto;
+import com.saessak.saessak.board.dto.user.login.LoginDto;
+import com.saessak.saessak.board.dto.user.password_search.PasswordSearchRequestDto;
+import com.saessak.saessak.board.dto.user.password_search.PasswordSearchResponseDto;
+import com.saessak.saessak.board.dto.user.sign_up.UserSignUpDto;
 import com.saessak.saessak.board.message.ResponseMessage;
 import com.saessak.saessak.board.message.StatusCode;
 import com.saessak.saessak.board.service.UserService;
@@ -11,9 +19,12 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,9 +36,77 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(code = StatusCode.OK, message = ResponseMessage.CREATED_USER)
     })
-    @PostMapping("/signup")
-    public ResponseEntity<DefaultRes<Object>> signUp(@RequestBody UserSignUpDto userSignUpDto) throws Exception {
+    @PostMapping("/sign-up")
+    public ResponseEntity<DefaultRes<Object>> signUp(@RequestBody UserSignUpDto userSignUpDto) {
         userService.signUp(userSignUpDto);
         return new ResponseEntity<>(DefaultRes.res(StatusCode.OK, ResponseMessage.CREATED_USER), HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "아이디 중복 체크")
+    @ApiResponses({
+            @ApiResponse(code = StatusCode.OK, message = ResponseMessage.AVAILABLE_ID),
+            @ApiResponse(code = StatusCode.CONFLICT, message = ResponseMessage.CONFLICT_ID)
+    })
+    @GetMapping("/id-duplicate-check")
+    public ResponseEntity<DefaultRes<String>> idCheck(@RequestBody IdDuplicateCheckDto idDuplicateCheckDto) {
+        if (userService.isIdDuplicated(idDuplicateCheckDto)) {
+            return new ResponseEntity<>(DefaultRes.res(StatusCode.CONFLICT, ResponseMessage.CONFLICT_ID), HttpStatus.CONFLICT);
+        } else {
+            return new ResponseEntity<>(DefaultRes.res(StatusCode.OK, ResponseMessage.AVAILABLE_ID), HttpStatus.OK);
+        }
+    }
+
+    @ApiOperation(value = "아이디 찾기")
+    @ApiResponses({
+            @ApiResponse(code = StatusCode.OK, message = ResponseMessage.EMPTY_MESSAGE, response = IdSearchResponseDto.class),
+            @ApiResponse(code = StatusCode.NOT_FOUND, message = ResponseMessage.USER_NOT_FOUND)
+    })
+    @GetMapping("/find-id")
+    public ResponseEntity<DefaultRes<Object>> findId(@RequestBody IdSearchRequestDto idSearchRequestDto) {
+        String userId = userService.findId(idSearchRequestDto);
+        if (userId == null) {
+            return new ResponseEntity<>(DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.USER_NOT_FOUND), HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(DefaultRes.res(StatusCode.OK, new IdSearchResponseDto(userId)), HttpStatus.OK);
+        }
+    }
+
+    @ApiOperation(value = "패스워드 찾기")
+    @ApiResponses({
+            @ApiResponse(code = StatusCode.OK, message = ResponseMessage.EMPTY_MESSAGE, response = PasswordSearchResponseDto.class),
+            @ApiResponse(code = StatusCode.NOT_FOUND, message = ResponseMessage.USER_NOT_FOUND)
+    })
+    @GetMapping("/find-password")
+    public ResponseEntity<DefaultRes<Object>> findPassword(@RequestBody PasswordSearchRequestDto passwordSearchRequestDto) {
+        String password = userService.findPassword(passwordSearchRequestDto);
+        if (password == null) {
+            return new ResponseEntity<>(DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.USER_NOT_FOUND), HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(DefaultRes.res(StatusCode.OK, new PasswordSearchResponseDto(password)), HttpStatus.OK);
+        }
+    }
+
+    @ApiOperation(value = "로그인")
+    @ApiResponses({
+            @ApiResponse(code = StatusCode.OK, message = ResponseMessage.LOGIN_SUCCESS),
+            @ApiResponse(code = StatusCode.NOT_FOUND, message = ResponseMessage.USER_NOT_FOUND)
+    })
+    @GetMapping("/login")
+    public ResponseEntity<DefaultRes<String>> login(@RequestBody LoginDto loginDto) {
+        if (userService.userExists(loginDto)) {
+            return new ResponseEntity<>(DefaultRes.res(StatusCode.OK, ResponseMessage.LOGIN_SUCCESS), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(DefaultRes.res(StatusCode.NOT_FOUND, ResponseMessage.USER_NOT_FOUND), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @ApiOperation(value = "현재 접속중인 유저 리스트 조회")
+    @ApiResponses({
+            @ApiResponse(code = StatusCode.OK, message = ResponseMessage.EMPTY_MESSAGE, response = String.class, responseContainer = "List")
+    })
+    @GetMapping("/online-user")
+    public ResponseEntity<DefaultRes<List<String>>> onlineUserList() {
+        List<String> userList = SocketIOConfig.clientList.values().stream().map(User::getName).toList();
+        return new ResponseEntity<>(DefaultRes.res(StatusCode.OK,userList),HttpStatus.OK);
     }
 }
