@@ -1,4 +1,4 @@
-package com.saessak.saessak.board.dto;
+package com.saessak.saessak.board.dto.user;
 
 import lombok.Builder;
 import lombok.Data;

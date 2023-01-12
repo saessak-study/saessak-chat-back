@@ -1,5 +1,6 @@
-package com.saessak.saessak.board.dto;
+package com.saessak.saessak.board.dto.user.sign_up;
 
+import com.saessak.saessak.board.dto.user.User;
 import io.swagger.annotations.ApiModelProperty;
 
 
