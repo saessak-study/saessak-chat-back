@@ -2,14 +2,14 @@ package com.saessak.saessak.board.controller;
 
 import com.saessak.saessak.board.config.SocketIOConfig;
 import com.saessak.saessak.board.dto.DefaultRes;
-import com.saessak.saessak.board.dto.user.User;
+import com.saessak.saessak.board.dto.user.domain.User;
 import com.saessak.saessak.board.dto.user.duplicate_check.IdDuplicateCheckDto;
 import com.saessak.saessak.board.dto.user.id_search.IdSearchRequestDto;
 import com.saessak.saessak.board.dto.user.id_search.IdSearchResponseDto;
 import com.saessak.saessak.board.dto.user.login.LoginDto;
 import com.saessak.saessak.board.dto.user.password_search.PasswordSearchRequestDto;
 import com.saessak.saessak.board.dto.user.password_search.PasswordSearchResponseDto;
-import com.saessak.saessak.board.dto.user.sign_up.UserSignUpDto;
+import com.saessak.saessak.board.dto.user.dto.SignupDto;
 import com.saessak.saessak.board.message.ResponseMessage;
 import com.saessak.saessak.board.message.StatusCode;
 import com.saessak.saessak.board.service.UserService;
@@ -37,8 +37,8 @@ public class UserController {
             @ApiResponse(code = StatusCode.OK, message = ResponseMessage.CREATED_USER)
     })
     @PostMapping("/sign-up")
-    public ResponseEntity<DefaultRes<Object>> signUp(@RequestBody UserSignUpDto userSignUpDto) {
-        userService.signUp(userSignUpDto);
+    public ResponseEntity<DefaultRes<Object>> signUp(@RequestBody SignupDto signupDto) {
+        userService.createUser(signupDto);
         return new ResponseEntity<>(DefaultRes.res(StatusCode.OK, ResponseMessage.CREATED_USER), HttpStatus.OK);
     }
 

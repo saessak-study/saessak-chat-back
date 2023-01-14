@@ -7,7 +7,7 @@ import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.saessak.saessak.board.dto.chatting.ChattingDto;
-import com.saessak.saessak.board.dto.user.User;
+import com.saessak.saessak.board.dto.user.domain.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -57,7 +57,7 @@ public class SocketIOConfig {
         }
     };
     private final DataListener<String> onUserLoginListener = (client, data, ackSender) -> {
-        User user = User.builder().name("유저-" + client.getSessionId()).id(data).pw("pw").mail("mail").build();
+        User user =
         for (SocketIOClient socket : clientList.keySet()) {
             socket.sendEvent("log-in", user);
         }
