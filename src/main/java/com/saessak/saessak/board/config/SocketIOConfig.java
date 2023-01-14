@@ -8,6 +8,9 @@ import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.saessak.saessak.board.dto.chatting.ChattingDto;
 import com.saessak.saessak.board.dto.user.domain.User;
+import com.saessak.saessak.board.service.ChattingService;
+import com.saessak.saessak.board.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -18,12 +21,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@RequiredArgsConstructor
 public class SocketIOConfig {
 
     @Value("${socket.host}")
     private String socketHost;
     @Value("${socket.port}")
     private int socketPort;
+    private UserService userService;
+    private ChattingService chattingService;
     private SocketIOServer server;
 
     public static final Map<SocketIOClient, User> clientList = new HashMap<>();
@@ -57,9 +63,9 @@ public class SocketIOConfig {
         }
     };
     private final DataListener<String> onUserLoginListener = (client, data, ackSender) -> {
-        User user =
+        User user = userService.findUserById(data);
         for (SocketIOClient socket : clientList.keySet()) {
-            socket.sendEvent("log-in", user);
+            socket.sendEvent("log-in", user.getName());
         }
         clientList.put(client, user);
     };
@@ -72,6 +78,7 @@ public class SocketIOConfig {
                 .sendTime(new Date())
                 .message(data)
                 .build();
+        chattingService.saveChatting(chatting);
         for (SocketIOClient socket : clientList.keySet()) {
             if (socket != client) {
                 socket.sendEvent("chatting", chatting);

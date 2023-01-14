@@ -1,4 +1,4 @@
-package com.saessak.saessak.board.dto.user.login;
+package com.saessak.saessak.board.dto.user.domain;
 
 import lombok.Builder;
 import lombok.Data;

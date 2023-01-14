@@ -1,5 +1,6 @@
 package com.saessak.saessak.board.dto.user.password_search;
 
+import com.saessak.saessak.board.dto.user.domain.PasswordSearchKeyInfo;
 import io.swagger.annotations.ApiModelProperty;
 
 public record PasswordSearchRequestDto(

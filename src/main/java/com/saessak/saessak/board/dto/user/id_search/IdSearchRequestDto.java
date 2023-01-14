@@ -1,5 +1,6 @@
 package com.saessak.saessak.board.dto.user.id_search;
 
+import com.saessak.saessak.board.dto.user.domain.IdSearchKeyInfo;
 import io.swagger.annotations.ApiModelProperty;
 
 public record IdSearchRequestDto(

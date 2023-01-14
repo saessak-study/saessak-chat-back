@@ -1,5 +1,6 @@
 package com.saessak.saessak.board.dto.user.login;
 
+import com.saessak.saessak.board.dto.user.domain.LoginInfo;
 import io.swagger.annotations.ApiModelProperty;
 
 public record LoginDto(

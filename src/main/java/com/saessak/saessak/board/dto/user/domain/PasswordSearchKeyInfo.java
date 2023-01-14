@@ -1,4 +1,4 @@
-package com.saessak.saessak.board.dto.user.password_search;
+package com.saessak.saessak.board.dto.user.domain;
 
 import lombok.Builder;
 import lombok.Data;
