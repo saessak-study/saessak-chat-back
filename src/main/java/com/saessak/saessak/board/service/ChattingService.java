@@ -2,7 +2,6 @@ package com.saessak.saessak.board.service;
 
 import com.saessak.saessak.board.dto.chatting.ChattingDateDto;
 import com.saessak.saessak.board.dto.chatting.ChattingDto;
-import com.saessak.saessak.board.repository.ChattingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

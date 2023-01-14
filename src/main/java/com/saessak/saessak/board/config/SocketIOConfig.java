@@ -49,7 +49,10 @@ public class SocketIOConfig {
     }
 
 
-    private final ConnectListener onUserConnectListener = client -> client.sendEvent("connected", "ok");
+    private final ConnectListener onUserConnectListener = client -> {
+        System.out.println("User Connected");
+        client.sendEvent("connected", "ok");
+    };
     private final DisconnectListener onUserDisconnectListener = client -> {
         User removeTarget = clientList.remove(client);
         for (SocketIOClient socket : clientList.keySet()) {
@@ -57,6 +60,7 @@ public class SocketIOConfig {
         }
     };
     private final DataListener<String> onUserLoginListener = (client, data, ackSender) -> {
+        System.out.println("유저 로그인 : " + data);
         User user = User.builder().name("유저-" + client.getSessionId()).id(data).pw("pw").mail("mail").build();
         for (SocketIOClient socket : clientList.keySet()) {
             socket.sendEvent("log-in", user);
