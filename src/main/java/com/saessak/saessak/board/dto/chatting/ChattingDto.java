@@ -35,13 +35,4 @@ public class ChattingDto {
         this.sendTime = chatting.getSendTime();
         this.message = chatting.getMessage();
     }
-
-    public Chatting toEntity() {
-        return Chatting.builder()
-                .userId(userId)
-                .userName(userName)
-                .sendTime(sendTime)
-                .message(message)
-                .build();
-    }
 }

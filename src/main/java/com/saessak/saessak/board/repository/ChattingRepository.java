@@ -1,10 +1,13 @@
 package com.saessak.saessak.board.repository;
 
 import com.saessak.saessak.board.dto.chatting.Chatting;
-import com.saessak.saessak.board.dto.chatting.ChattingDate;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Date;
 import java.util.List;
 
-public interface ChattingRepository {
+public interface ChattingRepository extends JpaRepository<Chatting, Long> {
 
-    public List<Chatting> fetchChattingList(ChattingDate chattingDate);
+    List<Chatting> findAllBySendTimeBetween(Date startDate, Date endDate);
+
 }
