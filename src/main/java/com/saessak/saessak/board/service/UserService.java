@@ -1,10 +1,12 @@
 package com.saessak.saessak.board.service;
 
+import com.saessak.saessak.board.dto.user.domain.User;
+import com.saessak.saessak.board.dto.user.dto.SignupDto;
 import com.saessak.saessak.board.dto.user.duplicate_check.IdDuplicateCheckDto;
 import com.saessak.saessak.board.dto.user.id_search.IdSearchRequestDto;
 import com.saessak.saessak.board.dto.user.login.LoginDto;
 import com.saessak.saessak.board.dto.user.password_search.PasswordSearchRequestDto;
-import com.saessak.saessak.board.dto.user.sign_up.UserSignUpDto;
+import com.saessak.saessak.board.dto.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-//    private UserRepository repository;
+    private final UserRepository userRepository;
 
-    public void signUp(UserSignUpDto userSignUpDto) {
-//        repository.save(userSignUpDto.toEntity());
+    public void createUser(SignupDto signupDto) {
+        User user = new User();
+        user.setName(signupDto.name());
+        user.setId(signupDto.id());
+        user.setPw(signupDto.pw());
+        user.setMail(signupDto.mail());
+        userRepository.save(user);
     }
 
     public Boolean isIdDuplicated(IdDuplicateCheckDto idDuplicateCheckDto) {

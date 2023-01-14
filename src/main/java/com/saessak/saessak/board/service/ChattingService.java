@@ -16,7 +16,7 @@ import java.util.Locale;
 @Service
 public class ChattingService {
 
-//    private final ChattingRepository repository;
+    private final ChattingRepository repository;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
 
