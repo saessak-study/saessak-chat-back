@@ -13,7 +13,7 @@ import com.saessak.saessak.board.dto.user.password_search.PasswordSearchResponse
 import com.saessak.saessak.board.message.ResponseMessage;
 import com.saessak.saessak.board.message.StatusCode;
 import com.saessak.saessak.board.service.UserService;
-import com.saessak.saessak.handler.ChattingHandler;
+import com.saessak.saessak.board.handler.ChattingHandler;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -110,7 +110,13 @@ public class UserController {
         List<User> loginUserList = ChattingHandler.userList.values().stream().toList();
         List<User> users = userService.getAll();
         List<UserOnlineStatus> onlineStatuses = users.stream().map(user -> {
-            Boolean isOnline = loginUserList.contains(user);
+            boolean isOnline = false;
+            for (User onlineUser : loginUserList) {
+                if (user.getId().equals(onlineUser.getId())) {
+                    isOnline = true;
+                    break;
+                }
+            }
             return new UserOnlineStatus(user, isOnline);
         }).toList();
         return new ResponseEntity<>(DefaultRes.res(StatusCode.OK, onlineStatuses), HttpStatus.OK);

@@ -1,4 +1,4 @@
-package com.saessak.saessak.handler;
+package com.saessak.saessak.board.handler;
 
 import com.google.gson.Gson;
 import com.saessak.saessak.board.dto.chatting.ChattingDto;
