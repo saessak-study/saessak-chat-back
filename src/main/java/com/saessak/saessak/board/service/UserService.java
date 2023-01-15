@@ -10,6 +10,8 @@ import com.saessak.saessak.board.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @RequiredArgsConstructor
 @Service
@@ -49,6 +51,10 @@ public class UserService {
 
     public User findUserById(String id) {
         return userRepository.findById(id);
+    }
+
+    public List<User> getAll() {
+        return userRepository.findAll();
     }
 
 }
