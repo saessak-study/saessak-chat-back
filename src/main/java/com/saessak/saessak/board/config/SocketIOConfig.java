@@ -54,7 +54,6 @@ public class SocketIOConfig {
         this.server.stop();
     }
 
-
     private final ConnectListener onUserConnectListener = client -> client.sendEvent("connected", "ok");
     private final DisconnectListener onUserDisconnectListener = client -> {
         User removeTarget = clientList.remove(client);
