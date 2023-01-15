@@ -20,8 +20,9 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,6 +30,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 
     private final UserService userService;
@@ -37,7 +39,7 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(code = StatusCode.OK, message = ResponseMessage.CREATED_USER)
     })
-    @PostMapping("/sign-up")
+    @PutMapping("/sign-up")
     public ResponseEntity<DefaultRes<Object>> signUp(@RequestBody SignupDto signupDto) {
         userService.createUser(signupDto);
         return new ResponseEntity<>(DefaultRes.res(StatusCode.OK, ResponseMessage.CREATED_USER), HttpStatus.OK);
@@ -48,7 +50,7 @@ public class UserController {
             @ApiResponse(code = StatusCode.OK, message = ResponseMessage.AVAILABLE_ID),
             @ApiResponse(code = StatusCode.CONFLICT, message = ResponseMessage.CONFLICT_ID)
     })
-    @GetMapping("/id-duplicate-check")
+    @PostMapping("/id-duplicate-check")
     public ResponseEntity<DefaultRes<String>> idCheck(@RequestBody IdDuplicateCheckDto idDuplicateCheckDto) {
         if (userService.isIdDuplicated(idDuplicateCheckDto)) {
             return new ResponseEntity<>(DefaultRes.res(StatusCode.CONFLICT, ResponseMessage.CONFLICT_ID), HttpStatus.CONFLICT);
@@ -62,7 +64,7 @@ public class UserController {
             @ApiResponse(code = StatusCode.OK, message = ResponseMessage.EMPTY_MESSAGE, response = IdSearchResponseDto.class),
             @ApiResponse(code = StatusCode.NOT_FOUND, message = ResponseMessage.USER_NOT_FOUND)
     })
-    @GetMapping("/find-id")
+    @PostMapping("/find-id")
     public ResponseEntity<DefaultRes<Object>> findId(@RequestBody IdSearchRequestDto idSearchRequestDto) {
         String userId = userService.findId(idSearchRequestDto);
         if (userId == null) {
@@ -77,7 +79,7 @@ public class UserController {
             @ApiResponse(code = StatusCode.OK, message = ResponseMessage.EMPTY_MESSAGE, response = PasswordSearchResponseDto.class),
             @ApiResponse(code = StatusCode.NOT_FOUND, message = ResponseMessage.USER_NOT_FOUND)
     })
-    @GetMapping("/find-password")
+    @PostMapping("/find-password")
     public ResponseEntity<DefaultRes<Object>> findPassword(@RequestBody PasswordSearchRequestDto passwordSearchRequestDto) {
         String password = userService.findPassword(passwordSearchRequestDto);
         if (password == null) {
@@ -92,7 +94,7 @@ public class UserController {
             @ApiResponse(code = StatusCode.OK, message = ResponseMessage.LOGIN_SUCCESS),
             @ApiResponse(code = StatusCode.NOT_FOUND, message = ResponseMessage.USER_NOT_FOUND)
     })
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<DefaultRes<String>> login(@RequestBody LoginDto loginDto) {
         if (userService.userExists(loginDto)) {
             return new ResponseEntity<>(DefaultRes.res(StatusCode.OK, ResponseMessage.LOGIN_SUCCESS), HttpStatus.OK);
@@ -105,7 +107,7 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(code = StatusCode.OK, message = ResponseMessage.EMPTY_MESSAGE, response = UserOnlineStatus.class, responseContainer = "List")
     })
-    @GetMapping("/online-user")
+    @PostMapping("/online-user")
     public ResponseEntity<DefaultRes<List<UserOnlineStatus>>> onlineUserList() {
         List<User> loginUserList = ChattingHandler.userList.values().stream().toList();
         List<User> users = userService.getAll();

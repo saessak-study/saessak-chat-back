@@ -9,7 +9,7 @@ import com.saessak.saessak.board.service.ChattingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +21,7 @@ public class ChattingController {
 
     private final ChattingService chattingService;
 
-    @GetMapping("/chat-history")
+    @PostMapping("/chat-history")
     public ResponseEntity<DefaultRes<Object>> chattingList(@RequestBody ChattingDateDto chattingDateDto) {
         List<ChattingDto> chattingList = chattingService.fetchChattingList(chattingDateDto);
         if (chattingList.isEmpty()) {
