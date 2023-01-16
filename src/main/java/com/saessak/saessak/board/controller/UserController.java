@@ -10,21 +10,17 @@ import com.saessak.saessak.board.dto.user.id_search.IdSearchResponseDto;
 import com.saessak.saessak.board.dto.user.login.LoginDto;
 import com.saessak.saessak.board.dto.user.password_search.PasswordSearchRequestDto;
 import com.saessak.saessak.board.dto.user.password_search.PasswordSearchResponseDto;
+import com.saessak.saessak.board.handler.ChattingHandler;
 import com.saessak.saessak.board.message.ResponseMessage;
 import com.saessak.saessak.board.message.StatusCode;
 import com.saessak.saessak.board.service.UserService;
-import com.saessak.saessak.board.handler.ChattingHandler;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -107,7 +103,7 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(code = StatusCode.OK, message = ResponseMessage.EMPTY_MESSAGE, response = UserOnlineStatus.class, responseContainer = "List")
     })
-    @PostMapping("/online-user")
+    @GetMapping("/online-user")
     public ResponseEntity<DefaultRes<List<UserOnlineStatus>>> onlineUserList() {
         List<User> loginUserList = ChattingHandler.userList.values().stream().toList();
         List<User> users = userService.getAll();

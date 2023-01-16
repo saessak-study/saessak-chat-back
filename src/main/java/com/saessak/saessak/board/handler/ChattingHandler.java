@@ -73,7 +73,15 @@ public class ChattingHandler extends TextWebSocketHandler {
     private User getUserFromSession(URI sessionUri) {
         String path = sessionUri.getPath();
         String[] pathSegment = path.split("/");
-        String userId = pathSegment[pathSegment.length - 1];
+        String userId = "";
+        boolean isChat = false;
+        for (String segment : pathSegment) {
+            if (isChat) {
+                userId = segment;
+                break;
+            }
+            if (segment.equals("chat")) isChat = true;
+        }
         return userService.findUserById(userId);
     }
 }
