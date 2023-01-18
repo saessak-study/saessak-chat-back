@@ -33,4 +33,9 @@ public class ChattingService {
         chatting.setSendTime(chattingDto.getSendTime());
         chattingRepository.save(chatting);
     }
+
+    public List<ChattingDto> getAll() {
+        List<Chatting> chattingList = chattingRepository.findAll();
+        return chattingList.stream().map(ChattingDto::new).toList();
+    }
 }
