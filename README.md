@@ -27,5 +27,18 @@ FE 3명 / BE 1명 / 멘토 1명
 - etc.  :  GCP Compute Engine, SQL, VPC 네트워크, Firebase, Swagger
 
 
-  
+<br>
+
+## ERD
+
+<img src="https://github.com/zincum30/refactor-sskchat/assets/115124708/01860ffc-4081-4414-801b-0034d7635db9.png" width = "620" height ="280" /><br>
+
+
+<br>
+
+
+## API
+
+<img src="https://github.com/zincum30/refactor-sskchat/assets/115124708/8ea2ff24-ef2a-471d-9079-c4f6ccd603cf.png" width = "620" /><br>
+
   
