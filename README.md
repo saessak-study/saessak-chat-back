@@ -10,21 +10,17 @@
 
 <br>
 
-<b>진행기간</b>
-
-
+<b>진행기간</b>  
 2022 - 12 - 27 ~ 2023 - 01 -16
 
+<br>
 
-<b>멤버 구성</b>
-
-
+<b>멤버 구성</b>  
 FE 3명 / BE 1명 / 멘토 1명
 
+<br>
 
-<b>개발 환경</b>
-
-
+<b>개발 환경</b>  
 - Server  :  Debian Bullseye / Linux
 - Back-end  :  JAVA 16, Spring Boot 2.7, Spring Data JPA, Web Socket, Gradle
 - Database  :  MariaDB(MySQL)
